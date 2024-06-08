@@ -3519,7 +3519,7 @@ build_mingw_w64_git () { # [--only-i686] [--only-x86_64] [--only-aarch64] [--ski
 		export WITHOUT_PDBS
 	}
 
-	(if test -n "$(git config alias.signtool)"
+	if test -n "$(git config alias.signtool)"
 	 then
 		d="$(git rev-parse --absolute-git-dir)"
 		export SIGNTOOL="git ${d:+--git-dir="$d"} signtool"
@@ -3534,8 +3534,7 @@ build_mingw_w64_git () { # [--only-i686] [--only-x86_64] [--only-aarch64] [--ski
 		    -e '/^prepare /{N;s/$/&& sed -i s\/GIT_BUILT_FROM_COMMIT\/\\\"'$oid'\\\"\/ version.c \&\&/}' \
 			<PKGBUILD.$tag >PKGBUILD.src &&
 		MAKEFLAGS=${MAKEFLAGS:--j$(nproc)} MINGW_ARCH=mingw64 makepkg-mingw $force --allsource -p PKGBUILD.src
-	 fi) ||
-	die "Could not build mingw-w64-git\n"
+	fi
 
 	test -z "$output_path" || {
 		pkgpattern="$(sed -n '/^pkgver=/{N;s/pkgver=\(.*\).pkgrel=\(.*\)/\1-\2/p}' <${git_src_dir%/src/git}/PKGBUILD.$tag)" &&
