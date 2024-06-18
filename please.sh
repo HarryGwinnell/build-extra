@@ -3196,7 +3196,7 @@ create_sdk_artifact () { # [--out=<directory>] [--git-sdk=<directory>] [--archit
 
 		test "z$git_sdk_path" != "z${git_sdk_path%.git}" ||
 		git_sdk_path="$git_sdk_path.git"
-		git clone --depth 1 --bare https://github.com/git-for-windows/$SDK_REPO "$git_sdk_path"
+		git clone -b "install-asciidoctor" --depth 1 --bare https://github.com/git-for-windows/$SDK_REPO "$git_sdk_path"
 	fi
 
 	test full-sdk != "$mode" || {
