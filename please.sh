@@ -3528,6 +3528,7 @@ build_mingw_w64_git () { # [--only-i686] [--only-x86_64] [--only-aarch64] [--ski
 	 MAKEFLAGS=${MAKEFLAGS:--j$(nproc)} makepkg-mingw -s --noconfirm $force -p PKGBUILD.$tag &&
 	 if test -n "$src_pkg"
 	 then
+	 	echo "no src pkg"
 		git --git-dir src/git/.git archive --prefix git/ -o git-$tag.tar.gz $tag &&
 		oid="$(git --git-dir src/git/.git rev-parse $tag^0)" &&
 		sed -e 's/^source.*git+https.*/source=("git-'$tag'.tar.gz"/' \
@@ -3535,6 +3536,8 @@ build_mingw_w64_git () { # [--only-i686] [--only-x86_64] [--only-aarch64] [--ski
 			<PKGBUILD.$tag >PKGBUILD.src &&
 		MAKEFLAGS=${MAKEFLAGS:--j$(nproc)} MINGW_ARCH=mingw64 makepkg-mingw $force --allsource -p PKGBUILD.src
 	fi
+
+	echo "passed signing"
 
 	test -z "$output_path" || {
 		pkgpattern="$(sed -n '/^pkgver=/{N;s/pkgver=\(.*\).pkgrel=\(.*\)/\1-\2/p}' <${git_src_dir%/src/git}/PKGBUILD.$tag)" &&
